@@ -31,9 +31,7 @@
         // 3. Загрузка API Яндекс.Карт
 async function initMap() {
     await ymaps3.ready;
-	ymaps3.ready.then(() => {
-    ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', '@yandex/ymaps3-default-ui-theme@0.0');
-	});
+	ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', '@yandex/ymaps3-default-ui-theme@0.0');
 
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapControls} = ymaps3;
 	// Load the package with the default marker, extract the class to create the default marker object
