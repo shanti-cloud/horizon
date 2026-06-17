@@ -29,17 +29,22 @@
         ];
 
         // 3. Загрузка API Яндекс.Карт
-        import { YMap, YMapDefaultSchemeLayer } from './lib/ymaps3.js'
+async function initMap() {
+    await ymaps3.ready;
 
-       // Создаем саму карту (Центр - Питер, зум - 8)
-       const map = new YMap(document.getElementById('map'), {
-                location: {
-                    center: [30.3141, 59.9386], // В Яндексе координаты [долгота, широта]!
-                    zoom: 8
-                }
-       });
+    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapFeature} = ymaps3;
+// Создаем саму карту (Центр - Питер, зум - 8)
+    const map = new YMap(
+        document.getElementById('map'),
+        {
+            location: {
+                center: [30.3141, 59.9386], // В Яндексе координаты [долгота, широта]!
+                zoom: 8
+            }
+        }
+    );
 
-            // Добавляем слои схемы и объектов (без них карта будет пустой)
+	// Добавляем слои схемы и объектов (без них карта будет пустой)
             map.addChild(new YMapDefaultSchemeLayer());
             map.addChild(new YMapDefaultFeaturesLayer());
 
@@ -69,4 +74,6 @@
 
                 map.addChild(marker);
             });
+}
 
+initMap();
