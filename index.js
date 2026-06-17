@@ -33,6 +33,9 @@ async function initMap() {
     await ymaps3.ready;
 
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapFeature} = ymaps3;
+	// Load the package with the default marker, extract the class to create the default marker object
+	const {YMapDefaultMarker} = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
+	
 // Создаем саму карту (Центр - Питер, зум - 8)
     const map = new YMap(
         document.getElementById('map'),
