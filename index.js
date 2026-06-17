@@ -54,11 +54,11 @@ async function initMap() {
                 // Создаем разметку для всплывающего окна (балуна)
                 const balloonHtml = document.createElement('div');
                 balloonHtml.className = 'custom-balloon';
-                balloonHtml.innerHTML = '
+                balloonHtml.innerHTML = `
                     <div class="balloon-title">${loc.name}</div>
                     <div>${loc.desc}</div>
                     <button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
-                ';
+                `;
 
                 // Создаем маркер Яндекса v3
                 const marker = new YMapDefaultMarker({
