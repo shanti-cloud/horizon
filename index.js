@@ -69,7 +69,10 @@ async function initMap() {
                     coordinates: [loc.lng, loc.lat], // Опять же: сначала ДОЛГОТА
                     title: loc.name,
                     subtitle: 'Нажми, чтобы открыть',
-                    color: '#2481cc', // Цвет маркера в тон Telegram
+					color: { 
+						day: '#2481cc',   // Custom light-mode color
+						night: '#FF5B4D'  // Custom dark-mode color
+					},
                     popup: {
                         position: 'top',
                         element: balloonHtml // Привязываем наше окно к маркеру
