@@ -29,7 +29,7 @@
         ];
 
         // 3. Загрузка API Яндекс.Карт
-        import { YMap, YMapDefaultSchemeLayer } from './lib/ymaps3.js'
+        import { YMap, YMapDefaultSchemeLayer } from 'lib/ymaps3.js'
 
        // Создаем саму карту (Центр - Питер, зум - 8)
        const map = new YMap(document.getElementById('map'), {
