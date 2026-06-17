@@ -1,0 +1,77 @@
+ // 1. Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        // Функция для перехода в нужный топик группы
+        function navigateToTopic(topicId) {
+            // ЗАМЕНИТЕ НА ЮЗЕРНЕЙМ ВАШЕЙ ГРУППЫ
+            const baseGroupUrl = 'https://t.me/c/2835833055'; 
+            tg.openTelegramLink(`${baseGroupUrl}/${topicId}`);
+        }
+
+        // 2. Данные ваших маршрутов
+        const locations = [
+            {
+                name: "Линдуловская роща",
+                desc: "Экотропа среди вековых лиственниц и бурная река Рощинка.",
+                lat: 60.2392,
+                lng: 29.5394,
+                topicId: 428
+            },
+            {
+                name: "Выборгский замок",
+                desc: "Единственный в России полностью сохранившийся средневековый замок.",
+                lat: 60.7158,
+                lng: 28.7291,
+                topicId: 300
+            }
+        ];
+
+        // 3. Ждем загрузки API Яндекс.Карт
+        ymaps3.ready.then(initMap);
+
+        async function initMap() {
+            // Импортируем необходимые модули Яндекса
+            const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer } = ymaps3;
+            const { YMapDefaultMarker } = await ymaps3.import('@yandex/ymaps3-markers@0.0.1');
+
+            // Создаем саму карту (Центр - Питер, зум - 8)
+            const map = new YMap(document.getElementById('map'), {
+                location: {
+                    center: [30.3141, 59.9386], // В Яндексе координаты [долгота, широта]!
+                    zoom: 8
+                }
+            });
+
+            // Добавляем слои схемы и объектов (без них карта будет пустой)
+            map.addChild(new YMapDefaultSchemeLayer());
+            map.addChild(new YMapDefaultFeaturesLayer());
+
+            // Перебираем локации и добавляем метки
+            locations.forEach(loc => {
+                
+                // Создаем разметку для всплывающего окна (балуна)
+                const balloonHtml = document.createElement('div');
+                balloonHtml.className = 'custom-balloon';
+                balloonHtml.innerHTML = `
+                    <div class="balloon-title">${loc.name}</div>
+                    <div>${loc.desc}</div>
+                    <button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Поехать!</button>
+                `;
+
+                // Создаем маркер Яндекса v3
+                const marker = new YMapDefaultMarker({
+                    coordinates: [loc.lng, loc.lat], // Опять же: сначала ДОЛГОТА
+                    title: loc.name,
+                    subtitle: 'Нажми, чтобы открыть',
+                    color: '#2481cc', // Цвет маркера в тон Telegram
+                    popup: {
+                        position: 'top',
+                        element: balloonHtml // Привязываем наше окно к маркеру
+                    }
+                });
+
+                map.addChild(marker);
+            });
+        }
