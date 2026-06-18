@@ -19,8 +19,8 @@
             src="variables.ts"
         ></script>
         <script data-plugins="transform-modules-umd" data-presets="typescript" type="text/babel">
-            import {FIRST_MARKER_PROPS, LOCATION, SECOND_MARKER_PROPS} from '../variables';
-            import {InfoMessage} from './common';
+            import {FIRST_MARKER_PROPS, LOCATION, SECOND_MARKER_PROPS} from 'variables';
+            import {InfoMessage} from 'common';
             
             window.map = null;
             
@@ -42,7 +42,7 @@
                     popupElement.classList.add('popup');
             
                     const imageElement = document.createElement('img');
-                    imageElement.src = '../waves.png';
+                    imageElement.src = 'waves.png';
                     imageElement.alt = 'waves';
                     imageElement.classList.add('image');
             
