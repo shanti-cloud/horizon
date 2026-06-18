@@ -58,26 +58,23 @@ async function initMap() {
 	// Перебираем локации и добавляем метки
 	locations.forEach(loc => {
 
-		// 1. Сразу создаем HTML-элемент балуна
+		// 1. Сразу создаем HTML-элемент балуна (УБРАЛИ класс hidden из строки)
 		const balloonHtml = document.createElement('div');
-		// Добавляем класс 'hidden', чтобы он изначально был скрыт
-		balloonHtml.className = 'custom-balloon hidden'; 
+		balloonHtml.className = 'custom-balloon'; // Просто чистый класс для стилей
 		balloonHtml.innerHTML = `
 			<div class="balloon-title">${loc.name}</div>
 			<div>${loc.desc}</div>
 			<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
 		`;
 
-		// 2. Создаем Попап. Передаем функцию в content, чтобы Яндекс не ругался
+		// 2. Создаем Попап. Яндекс сам скроет его, потому что show: false
 		const popup = new YMapPopupMarker({
 			coordinates: [loc.lng, loc.lat],
 			position: 'top',
-			show: false, // Изначально скрываем его в самом Яндексе
+			show: false, 
 			content: () => balloonHtml 
 		});
 		
-		// Хак для надежности: принудительно сохраняем статус скрытости в сам объект, 
-		// чтобы нам было удобно проверять его при клике
 		popup.hiddenStatus = true;
 
 		// 3. Создаем обычный маркер (точку)
@@ -93,10 +90,10 @@ async function initMap() {
 			onClick: () => {
 				// Переключаем видимость попапа через метод Яндекса .update()
 				if (popup.hiddenStatus) {
-					popup.update({ show: true }); // Показываем белое облако вместе с контентом
+					popup.update({ show: true }); // Показываем облако, контент внутри отобразится сразу
 					popup.hiddenStatus = false;
 				} else {
-					popup.update({ show: false });  // Полностью уничтожаем белое облако с карты
+					popup.update({ show: false }); // Полностью скрываем облако
 					popup.hiddenStatus = true;
 				}
 			}
