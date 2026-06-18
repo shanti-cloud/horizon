@@ -37,7 +37,7 @@ async function initMap() {
 
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapControls} = ymaps3;
 	// Load the package with the default marker, extract the class to create the default marker object
-	const {YMapDefaultMarker} = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
+	const {YMapDefaultMarker, YMapPopupMarker} = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
 	
 // Создаем саму карту (Центр - Питер, зум - 8)
     const map = new YMap(
@@ -54,49 +54,46 @@ async function initMap() {
             map.addChild(new YMapDefaultSchemeLayer());
             map.addChild(new YMapDefaultFeaturesLayer());
 
+
             // Перебираем локации и добавляем метки
             locations.forEach(loc => {
-				// 1. Создаем маркер (свойство popup убираем из конструктора, Яндекс v3 требует привязывать его отдельно)
-			const marker = new YMapDefaultMarker({
-				coordinates: [loc.lng, loc.lat],
-				title: loc.name,
-				subtitle: 'Нажми, чтобы открыть',
-				iconName: loc.icon,
-				color: { 
-					day: '#2481cc',   
-					night: '#FF5B4D'  
-				}
-			});
+				// 2. Сначала создаем сам элемент всплывающего окна (HTML)
+				const balloonHtml = document.createElement('div');
+				balloonHtml.className = 'custom-balloon';
+				balloonHtml.innerHTML = `
+					<div class="balloon-title">${loc.name}</div>
+					<div>${loc.desc}</div>
+					<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
+				`;
 
-			// 2. Вешаем обработчик клика на маркер, который будет открывать попап
-			marker.update({
-				onClick: () => {
-					// Проверяем, открыт ли уже попап у этого маркера
-					if (marker.popupOpen) {
-						marker.update({ popupOpen: false }); // Если открыт — закрываем
-					} else {
-						// Если закрыт — генерируем контент и открываем
-						const balloonHtml = document.createElement('div');
-						balloonHtml.className = 'custom-balloon';
-						balloonHtml.innerHTML = `
-							<div class="balloon-title">${loc.name}</div>
-							<div>${loc.desc}</div>
-							<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
-						`;
+				// 3. Создаем объект Попапа (но передаем свойство "hidden: true", чтобы он изначально был скрыт)
+				const popup = new YMapPopupMarker({
+					coordinates: [loc.lng, loc.lat],
+					position: 'top',
+					hidden: true, // Скрыт по умолчанию
+					element: balloonHtml
+				});
 
-						marker.update({
-							popupOpen: true,
-							popup: {
-								position: 'top',
-								content: () => balloonHtml
-							}
-						});
+				// 4. Создаем обычный маркер (точку)
+				const marker = new YMapDefaultMarker({
+					coordinates: [loc.lng, loc.lat],
+					title: loc.name,
+					subtitle: 'Нажми, чтобы открыть',
+					iconName: loc.icon,
+					color: { 
+						day: '#2481cc',   
+						night: '#FF5B4D'  
+					},
+					// Вешаем событие клика прямо в настройки маркера
+					onClick: () => {
+						// Переключаем видимость попапа (если скрыт — показываем, и наоборот)
+						popup.update({ hidden: !popup.hidden });
 					}
-				}
-			});
+				});
 
-			// 3. Добавляем маркер на карту
-			map.addChild(marker);
+				// 5. Добавляем на карту ОБА элемента (и точку, и скрытый попап к ней)
+				map.addChild(marker);
+				map.addChild(popup);
 			});	
 }
 
