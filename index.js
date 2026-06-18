@@ -54,33 +54,33 @@ async function initMap() {
 
             // Перебираем локации и добавляем метки
             locations.forEach(loc => {
-                
-                // Создаем разметку для всплывающего окна (балуна)
-                const balloonHtml = document.createElement('div');
-                balloonHtml.className = 'custom-balloon';
-                balloonHtml.innerHTML = `
-                    <div class="balloon-title">${loc.name}</div>
-                    <div>${loc.desc}</div>
-                    <button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
-                `;
-
-                // Создаем маркер Яндекса v3
-                const marker = new YMapDefaultMarker({
-                    coordinates: [loc.lng, loc.lat], // Опять же: сначала ДОЛГОТА
-                    title: loc.name,
-                    subtitle: 'Нажми, чтобы открыть',
+				// Создаем маркер Яндекса v3
+				const marker = new YMapDefaultMarker({
+					coordinates: [loc.lng, loc.lat],
+					title: loc.name,
+					subtitle: 'Нажми, чтобы открыть',
 					color: { 
-						day: '#2481cc',   // Custom light-mode color
-						night: '#FF5B4D'  // Custom dark-mode color
+						day: '#2481cc',   
+						night: '#FF5B4D'  
 					},
-                    popup: {
-                        position: 'top',
-                        element: () => balloonHtml  // Привязываем наше окно к маркеру
-                    }
-                });
+					popup: {
+						position: 'top',
+						// Переименовали в content и возвращаем DOM-элемент через функцию
+						content: () => {
+							const balloonHtml = document.createElement('div');
+							balloonHtml.className = 'custom-balloon';
+							balloonHtml.innerHTML = `
+								<div class="balloon-title">${loc.name}</div>
+								<div>${loc.desc}</div>
+								<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
+							`;
+							return balloonHtml;
+						}
+					}
+				});
 
-                map.addChild(marker);
-            });
+    map.addChild(marker);
+});	
 }
 
 initMap();
