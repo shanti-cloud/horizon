@@ -72,7 +72,7 @@ async function initMap() {
 		const popup = new YMapPopupMarker({
 			coordinates: [loc.lng, loc.lat],
 			position: 'top',
-			hidden: true, // Изначально скрываем его в самом Яндексе
+			show: false, // Изначально скрываем его в самом Яндексе
 			content: () => balloonHtml 
 		});
 		
@@ -93,10 +93,10 @@ async function initMap() {
 			onClick: () => {
 				// Переключаем видимость попапа через метод Яндекса .update()
 				if (popup.hiddenStatus) {
-					popup.update({ hidden: false }); // Показываем белое облако вместе с контентом
+					popup.update({ show: true }); // Показываем белое облако вместе с контентом
 					popup.hiddenStatus = false;
 				} else {
-					popup.update({ hidden: true });  // Полностью уничтожаем белое облако с карты
+					popup.update({ show: false });  // Полностью уничтожаем белое облако с карты
 					popup.hiddenStatus = true;
 				}
 			}
