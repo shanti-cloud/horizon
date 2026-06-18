@@ -54,30 +54,25 @@ async function initMap() {
 	map.addChild(new YMapDefaultSchemeLayer());
 	map.addChild(new YMapDefaultFeaturesLayer());
 
-
 	// Перебираем локации и добавляем метки
 	locations.forEach(loc => {
 
-		// 1. Сразу создаем DOM-элемент балуна
+		// 1. Сразу создаем HTML-элемент балуна
 		const balloonHtml = document.createElement('div');
-		balloonHtml.className = 'custom-balloon';
+		// Добавляем класс 'hidden', чтобы он изначально был скрыт
+		balloonHtml.className = 'custom-balloon hidden'; 
 		balloonHtml.innerHTML = `
 			<div class="balloon-title">${loc.name}</div>
 			<div>${loc.desc}</div>
 			<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
 		`;
 
-		// 2. Создаем объект Попапа (передаем вовзращенный элемент в 'element')
+		// 2. Создаем Попап. Передаем функцию в content, чтобы Яндекс не ругался
 		const popup = new YMapPopupMarker({
 			coordinates: [loc.lng, loc.lat],
 			position: 'top',
-			element: balloonHtml // Используем строго element вместо content
+			content: () => balloonHtml 
 		});
-
-		// Хак для v3.0: скрываем попап через обычные CSS стили при инициализации, 
-		// так как Яндекс иногда игнорирует внутренний флаг hidden до первого update
-		balloonHtml.style.display = 'none';
-		popup.hidden = true; // дублируем в объект для логики клика
 
 		// 3. Создаем обычный маркер (точку)
 		const marker = new YMapDefaultMarker({
@@ -89,23 +84,15 @@ async function initMap() {
 				night: '#FF5B4D'  
 			},
 			onClick: () => {
-				// Переключаем видимость
-				if (popup.hidden) {
-					balloonHtml.style.display = 'block';
-					popup.update({ hidden: false });
-					popup.hidden = false;
-				} else {
-					balloonHtml.style.display = 'none';
-					popup.update({ hidden: true });
-					popup.hidden = true;
-				}
+				// Переключаем класс 'hidden' у нашего HTML-элемента при клике
+				balloonHtml.classList.toggle('hidden');
 			}
 		});
 
-    // 4. Добавляем на карту ОБА элемента
-    map.addChild(marker);
-    map.addChild(popup);
-});	
+		// 4. Добавляем на карту оба элемента
+		map.addChild(marker);
+		map.addChild(popup);
+	});
 }
 
 initMap();
