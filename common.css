@@ -2,7 +2,7 @@
     padding: 8px 12px 8px 32px;
     border-radius: 8px;
     background-color: #313133;
-    background-image: url('./info-icon.svg');
+    background-image: url('info-icon.svg');
     background-position: 8px 50%;
     background-repeat: no-repeat;
     gap: 8px;
@@ -59,7 +59,7 @@
     border: none;
     background-color: transparent;
     position: absolute;
-    background-image: url('./close-icon.svg');
+    background-image: url('close-icon.svg');
     background-repeat: no-repeat;
     background-position: 50% 50%;
     width: 16px;
