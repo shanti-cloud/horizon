@@ -15,6 +15,7 @@
             {
                 name: "Линдуловская роща",
                 desc: "Экотропа среди вековых лиственниц и бурная река Рощинка.",
+				icon: 'forest',
                 lat: 60.2392,
                 lng: 29.5394,
                 topicId: 428
@@ -22,6 +23,7 @@
             {
                 name: "Выборгский замок",
                 desc: "Единственный в России полностью сохранившийся средневековый замок.",
+				icon: 'landmark',
                 lat: 60.7158,
                 lng: 28.7291,
                 topicId: 300
@@ -59,6 +61,7 @@ async function initMap() {
 				coordinates: [loc.lng, loc.lat],
 				title: loc.name,
 				subtitle: 'Нажми, чтобы открыть',
+				iconName: loc.icon,
 				color: { 
 					day: '#2481cc',   
 					night: '#FF5B4D'  
