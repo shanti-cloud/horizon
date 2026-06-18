@@ -75,7 +75,7 @@ async function initMap() {
 					},
                     popup: {
                         position: 'top',
-                        element: balloonHtml // Привязываем наше окно к маркеру
+                        element: () => balloonHtml  // Привязываем наше окно к маркеру
                     }
                 });
 
