@@ -5,10 +5,11 @@
 
         // Функция для перехода в нужный топик группы
         function navigateToTopic(topicId) {
-            // ЗАМЕНИТЕ НА ЮЗЕРНЕЙМ ВАШЕЙ ГРУППЫ
             const baseGroupUrl = 'https://t.me/c/2835833055'; 
             tg.openTelegramLink(`${baseGroupUrl}/${topicId}`);
         }
+		// Делаем функцию видимой для HTML-кнопок внутри карты:
+		window.navigateToTopic = navigateToTopic;
 
         // Данные маршрутов
         const locations = [
@@ -79,6 +80,7 @@ async function initMap() {
 			coordinates: [loc.lng, loc.lat],
 			title: loc.name,
 			subtitle: 'Нажми, чтобы открыть',
+			iconName: loc.icon,
 			color: { 
 				day: '#2481cc',   
 				night: '#FF5B4D'  
