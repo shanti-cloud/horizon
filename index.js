@@ -57,24 +57,27 @@ async function initMap() {
 
             // Перебираем локации и добавляем метки
             locations.forEach(loc => {
-				// 2. Сначала создаем сам элемент всплывающего окна (HTML)
-				const balloonHtml = document.createElement('div');
-				balloonHtml.className = 'custom-balloon';
-				balloonHtml.innerHTML = `
-					<div class="balloon-title">${loc.name}</div>
-					<div>${loc.desc}</div>
-					<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
-				`;
+				
 
-				// 3. Создаем объект Попапа (но передаем свойство "hidden: true", чтобы он изначально был скрыт)
+				// 1. Создаем объект Попапа (но передаем свойство "hidden: true", чтобы он изначально был скрыт)
 				const popup = new YMapPopupMarker({
 					coordinates: [loc.lng, loc.lat],
 					position: 'top',
 					hidden: true, // Скрыт по умолчанию
-					element: balloonHtml
+					// Переименовали в content и возвращаем DOM-элемент через функцию
+					content: () => {
+						const balloonHtml = document.createElement('div');
+						balloonHtml.className = 'custom-balloon';
+						balloonHtml.innerHTML = `
+							<div class="balloon-title">${loc.name}</div>
+							<div>${loc.desc}</div>
+							<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
+						`;
+						return balloonHtml;
+					}
 				});
 
-				// 4. Создаем обычный маркер (точку)
+				// 2. Создаем обычный маркер (точку)
 				const marker = new YMapDefaultMarker({
 					coordinates: [loc.lng, loc.lat],
 					title: loc.name,
