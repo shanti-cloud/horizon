@@ -8,9 +8,9 @@ export const LOCATION: YMapLocationRequest = {
 
 export const FIRST_MARKER_PROPS: {iconName: YMapDefaultMarkerProps['iconName']; coordinates: LngLat} = {
     iconName: 'lindul',
-    coordinates: [60.2392, 29.5394]
+    coordinates: [29.5394, 60.2392]
 };
 export const SECOND_MARKER_PROPS: {iconName: YMapDefaultMarkerProps['iconName']; coordinates: LngLat} = {
     iconName: 'vyborg',
-    coordinates: [60.7158, 28.7291]
+    coordinates: [28.7291, 60.7158]
 };
