@@ -72,8 +72,13 @@ async function initMap() {
 		const popup = new YMapPopupMarker({
 			coordinates: [loc.lng, loc.lat],
 			position: 'top',
+			hidden: true, // Изначально скрываем его в самом Яндексе
 			content: () => balloonHtml 
 		});
+		
+		// Хак для надежности: принудительно сохраняем статус скрытости в сам объект, 
+		// чтобы нам было удобно проверять его при клике
+		popup.hiddenStatus = true;
 
 		// 3. Создаем обычный маркер (точку)
 		const marker = new YMapDefaultMarker({
@@ -86,8 +91,14 @@ async function initMap() {
 				night: '#FF5B4D'  
 			},
 			onClick: () => {
-				// Переключаем класс 'hidden' у нашего HTML-элемента при клике
-				balloonHtml.classList.toggle('hidden');
+				// Переключаем видимость попапа через метод Яндекса .update()
+				if (popup.hiddenStatus) {
+					popup.update({ hidden: false }); // Показываем белое облако вместе с контентом
+					popup.hiddenStatus = false;
+				} else {
+					popup.update({ hidden: true });  // Полностью уничтожаем белое облако с карты
+					popup.hiddenStatus = true;
+				}
 			}
 		});
 
