@@ -54,33 +54,47 @@ async function initMap() {
 
             // Перебираем локации и добавляем метки
             locations.forEach(loc => {
-				// Создаем маркер Яндекса v3
-				const marker = new YMapDefaultMarker({
-					coordinates: [loc.lng, loc.lat],
-					title: loc.name,
-					subtitle: 'Нажми, чтобы открыть',
-					color: { 
-						day: '#2481cc',   
-						night: '#FF5B4D'  
-					},
-					popup: {
-						position: 'top',
-						// Переименовали в content и возвращаем DOM-элемент через функцию
-						content: () => {
-							const balloonHtml = document.createElement('div');
-							balloonHtml.className = 'custom-balloon';
-							balloonHtml.innerHTML = `
-								<div class="balloon-title">${loc.name}</div>
-								<div>${loc.desc}</div>
-								<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
-							`;
-							return balloonHtml;
-						}
-					}
-				});
+				// 1. Создаем маркер (свойство popup убираем из конструктора, Яндекс v3 требует привязывать его отдельно)
+			const marker = new YMapDefaultMarker({
+				coordinates: [loc.lng, loc.lat],
+				title: loc.name,
+				subtitle: 'Нажми, чтобы открыть',
+				color: { 
+					day: '#2481cc',   
+					night: '#FF5B4D'  
+				}
+			});
 
-    map.addChild(marker);
-});	
+			// 2. Вешаем обработчик клика на маркер, который будет открывать попап
+			marker.update({
+				onClick: () => {
+					// Проверяем, открыт ли уже попап у этого маркера
+					if (marker.popupOpen) {
+						marker.update({ popupOpen: false }); // Если открыт — закрываем
+					} else {
+						// Если закрыт — генерируем контент и открываем
+						const balloonHtml = document.createElement('div');
+						balloonHtml.className = 'custom-balloon';
+						balloonHtml.innerHTML = `
+							<div class="balloon-title">${loc.name}</div>
+							<div>${loc.desc}</div>
+							<button class="map-btn" onclick="navigateToTopic(${loc.topicId})">Описание</button>
+						`;
+
+						marker.update({
+							popupOpen: true,
+							popup: {
+								position: 'top',
+								content: () => balloonHtml
+							}
+						});
+					}
+				}
+			});
+
+			// 3. Добавляем маркер на карту
+			map.addChild(marker);
+			});	
 }
 
 initMap();
