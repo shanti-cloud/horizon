@@ -3,6 +3,31 @@
         tg.ready();
         tg.expand();
 
+	// Замените этот массив на ваши реальные ID (можно добавить несколько админов через запятую)
+	const ALLOWED_ADMIN_IDS = [5297670635]; 
+
+	function checkAdminAccess() {
+		// Проверяем, что приложение открыто внутри Telegram
+		if (window.Telegram && window.Telegram.WebApp) {
+			const tg = window.Telegram.WebApp;
+			
+			// Достаем данные пользователя
+			const user = tg.initDataUnsafe ? tg.initDataUnsafe.user : null;
+			
+			if (user && user.id) {
+				console.log("Ваш Telegram ID:", user.id);
+				
+				// Если ваш ID есть в списке разрешенных — показываем панель
+				if (ALLOWED_ADMIN_IDS.includes(user.id)) {
+					document.getElementById('admin-panel').style.display = 'block';
+				}
+			}
+		}
+	}
+
+	// Запускаем проверку при загрузке страницы
+	document.addEventListener("DOMContentLoaded", checkAdminAccess);
+
         // Функция для перехода в нужный топик группы
         function navigateToTopic(topicId) {
             const baseGroupUrl = 'https://t.me/c/2835833055'; 
