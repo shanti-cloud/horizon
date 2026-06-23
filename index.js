@@ -136,7 +136,7 @@ if (window.Telegram && window.Telegram.WebApp) {
             {
                 name: "Церковь Андрея Первозванного на Вуоксе",
                 desc: "Церковь на острове",
-				icon: 'chorch',
+				icon: 'ortodox',
                 lat: 60.8769,
                 lng: 29.8249,
                 topicId: 476
