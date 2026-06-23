@@ -1,28 +1,25 @@
  // 1. Инициализация Telegram Web App
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
+	if (window.Telegram && window.Telegram.WebApp) {
+			const tg = window.Telegram.WebApp;
+	}
+	tg.ready();
+	tg.expand();
 
-	// Замените этот массив на ваши реальные ID (можно добавить несколько админов через запятую)
 	const ALLOWED_ADMIN_IDS = [5297670635]; 
 
 	function checkAdminAccess() {
-		// Проверяем, что приложение открыто внутри Telegram
-		if (window.Telegram && window.Telegram.WebApp) {
-			const tg = window.Telegram.WebApp;
+		// Достаем данные пользователя
+		const user = tg.initDataUnsafe ? tg.initDataUnsafe.user : null;
+		
+		if (user && user.id) {
+			console.log("Ваш Telegram ID:", user.id);
 			
-			// Достаем данные пользователя
-			const user = tg.initDataUnsafe ? tg.initDataUnsafe.user : null;
-			
-			if (user && user.id) {
-				console.log("Ваш Telegram ID:", user.id);
-				
-				// Если ваш ID есть в списке разрешенных — показываем панель
-				if (ALLOWED_ADMIN_IDS.includes(user.id)) {
-					document.getElementById('admin-panel').style.display = 'block';
-				}
+			// Если ваш ID есть в списке разрешенных — показываем панель
+			if (ALLOWED_ADMIN_IDS.includes(user.id)) {
+				document.getElementById('admin-panel').style.display = 'block';
 			}
 		}
+
 	}
 
 	// Запускаем проверку при загрузке страницы
@@ -53,6 +50,102 @@
                 lat: 60.7158,
                 lng: 28.7291,
                 topicId: 300
+            },
+            {
+                name: "Карьеры Новинка",
+                desc: "Экотропа Лазурные воды, сырные берега... это затопленные карьеры в Новинке",
+				icon: 'landmark',
+                lat: 59.1670,
+                lng: 30.3702,
+                topicId: 469
+            },
+            {
+                name: "Каменистая тропа по Кивипарку",
+                desc: "Видовой экомаршрут вдоль побережья Выборгского залива с гранитными лбами",
+				icon: 'forest',
+                lat: 60.6390,
+                lng: 28.3658,
+                topicId: 129
+            },
+            {
+                name: "Ивангород",
+                desc: "Cтаринный город на северо-западе Ленинградской области, расположенный на берегу реки напротив эстонского города Нарва",
+				icon: 'landmark',
+                lat: 59.3764,
+                lng: 28.2197,
+                topicId: 318
+            },
+            {
+                name: "Новгород-17",
+                desc: Заброшенный военный городок, построенный в 1950-х годах для хранения ядерного оружия",
+				icon: 'landmark',
+                lat: 57.9646,
+                lng: 33.0522,
+                topicId: 531
+            },
+            {
+                name: "Залив Лехмалахти",
+                desc: "Большая Ладожская тропа от базы Тихая гавань",
+				icon: 'landmark',
+                lat: 61.0930,
+                lng: 30.0657,
+                topicId: 220
+            },
+            {
+                name: "Шалово-Перечицкий заказник. Лесные дали",
+                desc: "Экотропа Лесные дали, несколько озёр, излучины реки Луга, можно выйти к карьеру с голубой водой.",
+				icon: 'forest',
+                lat: 58.7724, 
+                lng: 29.9209,
+                topicId: 556
+            },
+            {
+                name: "Беличьи скалы",
+                desc: "Живописный скальный массив, расположенный на берегу Беличьего залива и вдоль Беличьей протоки",
+				icon: 'mountain',
+                lat: 60.7977, 
+                lng: 28.7600,
+                topicId: 567
+            },
+            {
+                name: "Пальцевы скалы",
+                desc: "Излюбленное место скалолазов",
+				icon: 'landmark',
+                lat: 60.7888, 
+                lng: 28.8024,
+                topicId: 567
+            },
+            {
+                name: "Тропа Хо Ши Мина",
+                desc: "Берега 4-х живописных скалистых озёр, несколько скальных массивов, подвесной мост через озеро",
+				icon: 'forest',
+                lat: 61.1452, 
+                lng: 29.7013,
+                topicId: 73
+            },
+            {
+                name: "Долина водопадов",
+                desc: "Эко-тропа, водопады, оленья ферма",
+				icon: 'park',
+                lat: 61.4772, 
+                lng: 30.0305,
+                topicId: 476
+            },
+            {
+                name: "Церковь Андрея Первозванного на Вуоксе",
+                desc: "Церковь на острове",
+				icon: 'chorch',
+                lat: 60.8769,
+                lng: 29.8249,
+                topicId: 476
+            },
+            {
+                name: "Трын-тропа",
+                desc: "Cказочно-креативная эко-тропа с множеством арт-объктов",
+				icon: 'park',
+                lat: 60.8110, 
+                lng: 28.9322,
+                topicId: 453
             }
         ];
 
