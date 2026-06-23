@@ -1,9 +1,11 @@
  // 1. Инициализация Telegram Web App
-	if (window.Telegram && window.Telegram.WebApp) {
-			const tg = window.Telegram.WebApp;
-	}
-	tg.ready();
-	tg.expand();
+let tg = null;
+
+if (window.Telegram && window.Telegram.WebApp) {
+    tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+}
 
 	const ALLOWED_ADMIN_IDS = [5297670635]; 
 
