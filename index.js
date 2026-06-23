@@ -112,7 +112,7 @@ if (window.Telegram && window.Telegram.WebApp) {
             {
                 name: "Пальцевы скалы",
                 desc: "Излюбленное место скалолазов",
-				icon: 'landmark',
+				icon: 'mountain',
                 lat: 60.7888, 
                 lng: 28.8024,
                 topicId: 567
@@ -128,7 +128,7 @@ if (window.Telegram && window.Telegram.WebApp) {
             {
                 name: "Долина водопадов",
                 desc: "Эко-тропа, водопады, оленья ферма",
-				icon: 'park',
+				icon: 'waterfall',
                 lat: 61.4772, 
                 lng: 30.0305,
                 topicId: 476
@@ -136,7 +136,7 @@ if (window.Telegram && window.Telegram.WebApp) {
             {
                 name: "Церковь Андрея Первозванного на Вуоксе",
                 desc: "Церковь на острове",
-				icon: 'ortodox',
+				icon: 'ortodox_church',
                 lat: 60.8769,
                 lng: 29.8249,
                 topicId: 476
@@ -148,6 +148,38 @@ if (window.Telegram && window.Telegram.WebApp) {
                 lat: 60.8110, 
                 lng: 28.9322,
                 topicId: 453
+            },
+            {
+                name: "Сестрорецкое болото",
+                desc: "Государственный природный заказник",
+				icon: 'forest',
+                lat: 60.1313, 
+                lng: 29.9971,
+                topicId: 369
+            },
+            {
+                name: "Гряда Вярямянселькя",
+                desc: "Заказник с озёрами, тремя экотропами и старой финской ГЭС",
+				icon: 'forest',
+                lat: 60.5892,
+                lng: 29.8875,
+                topicId: 116
+            },
+            {
+                name: "Кижи",
+                desc: "всемирно известный архитектурный музей-заповедник под открытым небом в Карелии",
+				icon: 'forest',
+                lat: 62.0836, 
+                lng: 35.2111,
+                topicId: 348
+            },
+            {
+                name: "Заповедник Кивач",
+                desc: "знаменитый природный заповедник и одноименный водопад в Карелии",
+				icon: 'forest',
+                lat: 62.2675,
+                lng: 33.9808,
+                topicId: 348
             }
         ];
 
